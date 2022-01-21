@@ -60,16 +60,16 @@
                     </thead>
                     <tbody>
                         @foreach ($services as $row)
-                        @php
+                        <!-- @php
                         $status = $row->status == 'on' ? 'checked' : '';
-                        @endphp
+                        @endphp -->
                         <td class="budget">
                             <div class="form-check form-switch">
-                                <!-- <input  class="form-check-input" type="checkbox" id="{{ $row->id }}" {{ $status }}>
-                                <label for="kelembaban">{{$row->nama_alat}}</label>
-                            </div> -->
+                                <input  class="form-check-input" type="checkbox" data-id="{{ $row->id }}" {{ $status }}>
+                                <label for="penyiraman">{{$row->nama_alat}}</label>
+                            </div>
                             <!-- <input data-id="{{$row->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $row->status ? 'checked' : '' }}> -->
-                            <input data-id="{{$row->id}}" class="form-check-input" type="checkbox" data-toogle="toggle" data-on="Active" data-off="Inactive" {{$row->status == 'on' ? 'checked' : ''}}>
+                            <!-- <input data-id="{{$row->id}}" class="form-check-input" type="checkbox" data-toogle="toggle" data-on="Active" data-off="Inactive" {{ $status }} > -->
 
                         </td>
                         @endforeach
@@ -98,18 +98,19 @@
             $('.form-check-input').change(function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
                 var id = $(this).data('id');
-                // console.log(status)
+                console.log(id)
 
                 $.ajax({
-                    type: "GET",
+                    type: "PUT",
                     dataType: "json",
                     url: '/changeStatus',
                     data: {
+                        "_token": "{{ csrf_token() }}",
                         'status': status,
                         'id': id
                     },
-                    success: function(data) {
-                        console.log(data.success)
+                    success: function(response) {
+                        console.log(response.pesan_sukses)
                     }
                 });
             })
