@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\M_Services;
 use App\Http\Controllers\Controller;
 use SebastianBergmann\Environment\Console;
+use Illuminate\Support\Facades\DB;
 
 class ServicesController extends Controller
 {
@@ -34,16 +35,17 @@ class ServicesController extends Controller
     public function changeStatus(Request $request)
     {
         // dd($request->status);
-        $service =M_Services::find($request->id);
-        if ($request->status == 1) {
-            $service->status = 'on';
+        // $service =M_Services::find($request->id);
+        if ($request->status == '1') {
+            $status = 'on';
         } else {
-            $service->status = 'off';
+            $status = 'off';
         }
+        DB::table('penyiraman')->where('id', $request->id)->update([
+                'status' => $status,
+             ]);
         
-        
-        $service->save();
-        return response()->json(['success'=>'Status change successfully.']);
+        return response()->json(['pesan_sukses'=>'Status change successfully.']);
     }
 
     public function create()
