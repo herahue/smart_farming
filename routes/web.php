@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('/services', ServicesController::class);
-Route::get('changeStatus', [ServicesController::class,'changeStatus']);
+Route::put('changeStatus', [ServicesController::class,'changeStatus']);
 
